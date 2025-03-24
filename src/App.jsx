@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import axios from "axios";
 import HomePage from "./Homepage";
 import RegisterForm from "./components/RegisterForm";
+import SearchResultsPage from "./components/searchResultsPage";
 
 function App() {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route path="/search-results" element={<SearchResultsPage />} />
         </Routes>
       </div>
       <Footer />
