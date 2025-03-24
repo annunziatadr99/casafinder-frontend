@@ -459,12 +459,25 @@
   margin-bottom: 20px; /* Spaziatura tra le sezioni */
 }
 
+.favorite-icon {
+  color: #e50013; /* Colore rosso dell'icona */
+  position: absolute; /* Posizionamento fisso */
+  bottom: 10px; /* Posizionata in basso */
+  right: 10px; /* Posizionata a destra */
+  font-size: 1.5rem; /* Dimensione dell'icona */
+  cursor: pointer; /* Mostra il puntatore per il click */
+}
+
 /* Stile generale per i testi */
 .section-container h3,
 .section-container h4,
 .section-container p,
 .section-container strong {
   color: #0074c1; /* Colore blu uniforme */
+}
+
+.card-common-style strong {
+  color: #0074c1 !important; /* Test per verificare che il CSS venga applicato */
 }
 
 /* Colore specifico per "Descrizione", "Caratteristiche" e "Invia un Email al Proprietario" */

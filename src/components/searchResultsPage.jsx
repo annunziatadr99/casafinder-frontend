@@ -94,7 +94,7 @@ const SearchResultsPage = () => {
                     </span>
                   </p>
                 </Card.Body>
-                {/* Icona Cuore per aggiungere ai preferiti */}
+                {/* Icona Cuore per aggiungere ai preferiti con stile modificato */}
                 <i
                   className="bi bi-heart-fill favorite-icon"
                   onClick={(e) => {
