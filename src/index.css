@@ -1,0 +1,558 @@
+/* Sfondo e testo per NavBar, HomeContent e SearchBar */
+.navbar-custom,
+.home-content-custom,
+.search-bar-wrapper {
+  background-color: #0074c1; /* Sfondo blu */
+  color: #eff6fb; /* Testo chiaro */
+}
+
+/* Link nella NavBar */
+.nav-item {
+  color: #ffffff; /* Testo bianco */
+  font-weight: bold;
+}
+
+.nav-item:hover {
+  text-decoration: underline;
+}
+
+/* Icona del menu a tendina (responsive) */
+.navbar-toggler {
+  background-color: transparent; /* Sfondo trasparente */
+}
+/* Menu a tendina responsive */
+.navbar-collapse {
+  background-color: #0074c1; /* Sfondo blu uniforme */
+}
+
+.navbar-collapse .nav-item {
+  color: #ffffff; /* Testo bianco per i link del menu */
+}
+
+.navbar-collapse .nav-item:hover {
+  text-decoration: underline; /* Sottolinea i link al passaggio del mouse */
+}
+.navbar-toggler-icon {
+  filter: invert(1); /* Rende l'icona bianca per visibilità su sfondo blu */
+}
+
+/* Testo e icona dell'utente loggato */
+.user-section .profile-section .user-icon {
+  color: #ffffff; /* Colore bianco per l'icona */
+}
+
+.user-section .profile-section .user-name {
+  color: #ffffff; /* Colore bianco per il testo */
+  font-weight: bold;
+}
+
+/* Pulsanti di login */
+.input-custom {
+  background-color: #0074c1; /* Sfondo blu */
+  color: #ffffff; /* Testo bianco */
+  text-align: center; /* Placeholder centrato */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: 1px solid #ffffff; /* Bordo sottile */
+}
+
+.btn-login {
+  background-color: #0074c1; /* Sfondo blu */
+  color: #ffffff; /* Testo bianco */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: 1px solid #ffffff; /* Bordo sottile */
+}
+
+/* Pulsante Registrati */
+.btn-register,
+.logout-button {
+  background-color: #0074c1; /* Sfondo blu */
+  color: #e50013; /* Testo rosso */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: 1px solid #e50013; /* Bordo rosso */
+}
+
+.btn-register:hover,
+.logout-button:hover {
+  background-color: #005f9e; /* Blu più scuro */
+  color: #e50013; /* Testo rosso */
+}
+
+/* Placeholder centrato e testo bianco per Username e Password */
+.input-custom::placeholder {
+  color: #ffffff; /* Placeholder bianco */
+  text-align: center; /* Testo centrato */
+  font-weight: bold;
+}
+
+/* Stile HomeContent */
+.home-content-custom {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.home-logo {
+  height: 120px;
+  margin-bottom: 15px; /* Spazio sotto il logo */
+}
+
+.home-text {
+  font-size: 1.8rem; /* Dimensione testo aumentata */
+  color: #ffffff; /* Testo bianco */
+}
+
+/* SearchBar */
+.search-bar-wrapper {
+  background-color: #ffffff; /* Sfondo bianco */
+  border-radius: 15px; /* Bordatura arrotondata */
+  border: 1px solid #ffffff; /* Bordo sottile */
+  padding: 20px; /* Padding interno */
+}
+
+.form-control-custom {
+  background-color: #ffffff; /* Sfondo bianco */
+  color: #7b7e85; /* Testo grigio */
+  text-align: center; /* Placeholder centrato */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: 1px solid #d9dbe0; /* Bordo grigio sottile */
+  height: 45px; /* Altezza uniforme */
+}
+
+/* Pulsante di ricerca */
+.btn-search {
+  background-color: #e50013; /* Sfondo rosso */
+  color: #ffffff; /* Testo bianco */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: none;
+  height: 45px; /* Altezza uniforme con i riquadri */
+  width: 100%; /* Larghezza uguale ai riquadri */
+  margin-left: 10px; /* Avvicina il pulsante ai riquadri */
+}
+
+.btn-search:hover {
+  background-color: #b2000f; /* Rosso più scuro */
+}
+
+/* Stile per l'intero form Pubblica*/
+.property-form-custom {
+  background-color: #e6f1f9; /* Colore di fondo */
+  border-radius: 15px; /* Bordatura arrotondata */
+  border: 1px solid #ffffff; /* Bordo bianco */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombreggiatura per effetto rialzato */
+  padding: 20px; /* Spaziatura interna */
+}
+
+/* Titolo centrale all'interno del form */
+.property-form-custom h3 {
+  text-align: center; /* Centra l'H3 */
+  color: #0074c1; /* Colore del testo */
+  font-weight: bold;
+  margin-bottom: 20px; /* Spazio sotto il titolo */
+}
+
+/* Titoli dei campi del form */
+.property-form-custom .form-label {
+  color: #0074c1; /* Colore blu uniforme con H3 */
+  font-weight: bold;
+  font-size: 1rem; /* Dimensione leggermente più grande */
+}
+
+/* Stile per i riquadri di input */
+.property-form-custom .form-control {
+  background-color: #e6f1f9; /* Sfondo */
+  color: #0074c1; /* Testo */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: 1px solid #ffffff; /* Bordo bianco sottile */
+  text-align: center; /* Placeholder centrato */
+  font-size: 1rem; /* Dimensione leggermente più grande */
+}
+
+/* Rimozione del font italic dai placeholder */
+.property-form-custom .form-control::placeholder {
+  color: #6b6d70; /* Colore placeholder */
+  font-style: normal; /* Rimuove stile italic */
+}
+
+/* Stile per il riquadro Tipo (Affitto/Vendita) */
+.property-form-custom .form-select {
+  background-color: #e6f1f9; /* Sfondo */
+  color: #6b6d70; /* Testo */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: 1px solid #ffffff; /* Bordo bianco sottile */
+  text-align: center; /* Testo centrato */
+  font-size: 1rem; /* Dimensione leggermente più grande */
+}
+
+/* Modifica per il placeholder e la scritta Nessun file selezionato */
+.property-form-custom input[type="file"]::file-selector-button {
+  color: #6b6d70; /* Colore uniforme al placeholder */
+}
+
+/* Layout con due colonne */
+.property-form-custom .row > .col {
+  flex: 0 0 50%; /* Ogni colonna occupa il 50% */
+  max-width: 50%; /* Larghezza massima del 50% */
+  padding-right: 10px; /* Spaziatura tra colonne */
+  margin-bottom: 15px; /* Spaziatura tra righe */
+}
+
+/* Rimuove padding dall'ultima colonna in una riga */
+.property-form-custom .row > .col:last-child {
+  padding-right: 0;
+}
+
+/* Uniforma altezza e larghezza dei riquadri */
+.property-form-custom .form-control,
+.property-form-custom .form-select {
+  height: 45px; /* Altezza uniforme */
+  width: 100%; /* Larghezza adeguata al contenitore */
+}
+
+/* Stile per il pulsante Pubblica Annuncio */
+.btn-publish {
+  background-color: #e50013; /* Sfondo rosso */
+  color: #ffffff; /* Testo bianco */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: none; /* Nessun bordo */
+  font-size: 1.2rem; /* Testo leggermente più grande */
+  padding: 10px 0; /* Spaziatura interna verticale */
+  width: 100%; /* Occupa tutta la larghezza */
+  margin-top: 15px; /* Spaziatura sopra */
+}
+
+.btn-publish:hover {
+  background-color: #b2000f; /* Rosso più scuro */
+}
+
+/* Footer */
+.footer-custom {
+  background-color: #0074c1;
+  color: white;
+}
+
+.footer-link {
+  color: white;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+/* Stile per l'intero form Registrati*/
+
+.register-form {
+  background-color: #e6f1f9; /* Colore di fondo */
+  border-radius: 15px; /* Bordatura arrotondata (uguale a PropertyForm) */
+  border: none; /* Rimozione del bordo rosso */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombreggiatura per effetto rialzato */
+  padding: 20px; /* Spaziatura interna */
+}
+
+/* Titoli centrati del form */
+.register-intro {
+  text-align: center; /* Testo centrato */
+  color: #0074c1; /* Colore blu */
+  font-size: 2rem; /* Dimensione del font maggiore */
+  margin-bottom: 20px; /* Spaziatura sotto */
+  margin-top: 15px; /* Spaziatura sopra */
+}
+
+/* Titoli dei campi del form */
+.register-form .form-label {
+  color: #0074c1; /* Colore blu uniforme */
+  font-weight: bold;
+  font-size: 1.3rem; /* Dimensione leggermente più grande */
+}
+
+/* Stile per i riquadri di input */
+.register-form .form-control {
+  background-color: #e6f1f9; /* Sfondo */
+  color: #0074c1; /* Testo */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: 1px solid #ffffff; /* Bordo bianco sottile */
+  text-align: center; /* Placeholder centrato */
+  font-size: 1rem; /* Dimensione leggermente più grande */
+  margin-bottom: 1.3rem;
+}
+
+/* Placeholder*/
+.register-form .form-control::placeholder {
+  color: #6b6d70; /* Colore uniforme */
+  font-style: normal; /* Rimuove stile italic */
+}
+
+/* Stile del pulsante Registrati */
+.register-form .btn-register {
+  background-color: #e50013; /* Sfondo rosso */
+  color: #ffffff; /* Testo bianco */
+  border-radius: 8px; /* Bordatura arrotondata */
+  border: none; /* Nessun bordo */
+  font-size: 1.2rem; /* Testo leggermente più grande */
+  padding: 10px 0; /* Spaziatura interna verticale */
+  width: 100%; /* Occupa tutta la larghezza */
+  margin-top: 15px; /* Spaziatura sopra */
+}
+
+.register-form .btn-register:hover {
+  background-color: #b2000f; /* Rosso più scuro */
+}
+
+/* Modifica per il placeholder Nessun file selezionato */
+.register-form input[type="file"]::file-selector-button {
+  color: #6b6d70; /* Colore uniforme */
+}
+
+.text-white {
+  color: white;
+}
+
+/*AreaPersonale  Stile generale per le card annunci preferiti e i tuoi annunci */
+.card-common-style {
+  border: 1px solid #ddd; /* Bordo leggero */
+  border-radius: 8px; /* Angoli arrotondati */
+  overflow: hidden; /* Impedisce che i contenuti escano dai bordi */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombreggiatura */
+}
+
+/* Stile per le immagini all'interno delle card */
+.card-common-style img.img-thumbnail {
+  width: 100%; /* Immagine a larghezza piena */
+  height: 150px; /* Altezza uniforme */
+  object-fit: cover; /* Adatta l'immagine senza deformarla */
+}
+
+/* Contenitore per i testi */
+.card-common-style .content {
+  padding: 10px; /* Spaziatura interna */
+}
+
+/* Stile del testo generico */
+.card-common-style .content p {
+  margin: 5px 0; /* Spazio verticale uniforme */
+}
+
+/* Stile del testo principale (titolo) */
+.card-common-style .content p.font-weight-bold {
+  font-weight: bold; /* Testo in grassetto */
+}
+
+/* Posizionamento dell'icona del cestino */
+.card-common-style .trash-icon {
+  position: absolute; /* Posizionamento assoluto */
+  bottom: 10px; /* Distanzia dall'angolo in basso */
+  right: 10px; /* Distanzia dall'angolo a destra */
+  cursor: pointer; /* Mostra il cursore a mano */
+  font-size: 1.5rem; /* Dimensione dell'icona */
+  color: #dc3545; /* Colore rosso (bootstrap danger) */
+}
+
+/* Stile per le sezioni principali (Dati Utente, Email Inviate, I Tuoi Annunci, Annunci Preferiti) */
+.section-container {
+  background-color: #e6f1f9; /* Colore di sfondo */
+  border-radius: 15px; /* Bordatura arrotondata */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombreggiatura */
+  padding: 20px; /* Spaziatura interna */
+  margin-bottom: 20px; /* Spaziatura tra le sezioni */
+}
+
+/* Stile per i sottocontenitori nella sezione Dati Utente */
+.user-data-card .list-group-item {
+  background-color: #ffffff; /* Sfondo bianco */
+  border: 1px solid #ddd; /* Bordo sottile */
+  border-radius: 8px; /* Angoli arrotondati */
+  padding: 10px; /* Spaziatura interna */
+  margin-bottom: 10px; /* Spaziatura tra i contenitori */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombreggiatura leggera */
+}
+
+/* Stile per i titoli delle sezioni */
+.section-title {
+  color: #0074c1; /* Colore blu per i titoli */
+  font-weight: bold;
+  text-align: center; /* Testo centrato */
+  margin-bottom: 15px; /* Spazio sotto il titolo */
+}
+
+/* Stile per gli elementi <strong> */
+.section-container strong {
+  color: #0074c1; /* Colore blu uniforme */
+  font-weight: bold; /* Testo in grassetto */
+}
+
+/* Colore per i risultati dinamici accanto agli <strong> */
+.section-container .dynamic-result {
+  color: #6b6d70; /* Colore grigio per i risultati */
+}
+
+/* Stile per l'header della pagina (H1 e lo span sottostante) */
+.page-header {
+  color: #0074c1; /* Colore blu */
+  text-align: center; /* Testo centrato */
+  margin-bottom: 30px; /* Spazio sotto l'intestazione */
+}
+
+.page-header h1 {
+  font-weight: bold; /* Testo in grassetto */
+  margin-bottom: 10px; /* Spaziatura sotto l'H1 */
+}
+
+.page-header span {
+  font-size: 1.1rem; /* Dimensione font leggermente più piccola */
+}
+
+/* Colore di sfondo bianco per le card */
+.card-common-style {
+  background-color: #ffffff; /* Sfondo bianco */
+  border: 1px solid #ddd; /* Bordo leggero */
+  border-radius: 8px; /* Angoli arrotondati */
+  overflow: hidden; /* Impedisce che i contenuti escano dai bordi */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombreggiatura */
+}
+
+/* Stile delle immagini delle card */
+.card-common-style img.img-thumbnail {
+  width: 100%; /* Immagine a larghezza piena */
+  height: 150px; /* Altezza uniforme */
+  object-fit: cover; /* Adatta l'immagine senza deformarla */
+}
+
+/* Stile del contenuto delle card */
+.card-common-style .content {
+  padding: 10px; /* Spaziatura interna */
+}
+
+/* Stile del testo nelle card */
+.card-common-style .content p {
+  margin: 5px 0; /* Spaziatura uniforme */
+}
+
+.card-common-style .content p.font-weight-bold {
+  font-weight: bold; /* Testo in grassetto */
+}
+
+/* Posizionamento dell'icona del cestino */
+.card-common-style .trash-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #dc3545; /* Colore rosso */
+}
+/* Stile per il titolo delle card */
+.card-common-style .font-weight-bold {
+  color: #0074c1; /* Colore blu per il titolo */
+}
+
+/* Stile per le parole dinamiche nelle card */
+.card-common-style .dynamic-result {
+  color: #6c6e71; /* Colore grigio per le risposte dinamiche */
+}
+
+/* Stile generale per le card SearchResultsPage */
+/* Contenitore per Card e Email */
+.section-container {
+  background-color: #e6f1f9; /* Colore di sfondo */
+  border-radius: 15px; /* Bordi arrotondati */
+  padding: 20px; /* Spaziatura interna */
+  margin-bottom: 20px; /* Spaziatura tra le sezioni */
+}
+
+/* Stile generale per i testi */
+.section-container h3,
+.section-container h4,
+.section-container p,
+.section-container strong {
+  color: #0074c1; /* Colore blu uniforme */
+}
+
+/* Colore specifico per "Descrizione", "Caratteristiche" e "Invia un Email al Proprietario" */
+.description-title,
+.characteristics-title,
+.email-title {
+  color: #0074c1; /* Colore blu */
+  text-align: left; /* Allineamento a sinistra */
+  font-size: 1.5rem; /* Dimensione del testo */
+  margin-bottom: 20px; /* Spaziatura sotto */
+}
+
+/* Colore per "Oggetto" e "Contenuto" nella sezione email */
+.section-container form label {
+  color: #0074c1; /* Colore blu */
+  font-size: 1.5rem; /* Grandezza del font */
+}
+
+/* Font più grande per <strong> e <span> */
+.section-container strong,
+.section-container span {
+  font-size: 1.3rem; /* Dimensione aumentata */
+}
+
+/* Stile specifico per il prezzo dinamico */
+.section-container .dynamic-price {
+  color: #7ed957 !important; /* Verde chiaro */
+  font-weight: bold; /* Grassetto per risalto */
+  font-size: 1.5rem; /* Dimensione leggermente maggiore */
+}
+
+/* Colore per i risultati dinamici */
+.dynamic-result {
+  color: #6b6d70; /* Colore grigio */
+}
+
+/* Uniformità per l'immagine nella card */
+.dettaglio-annuncio-img {
+  width: calc(100% - 10px); /* Larghezza quasi piena con margine */
+  height: 475px; /* Altezza uniforme per immagine orizzontale */
+  object-fit: cover; /* Adatta l'immagine mantenendo proporzioni */
+  margin: 5px; /* Margine per distanziamento dai bordi */
+  border-radius: 8px; /* Bordi arrotondati */
+}
+
+/* Disposizione visiva della card di Dettaglio Annuncio */
+.card-details-row {
+  display: flex; /* Disposizione orizzontale */
+  justify-content: space-between; /* Distribuzione tra elementi */
+  margin-bottom: 20px; /* Maggiore spaziatura tra le righe */
+}
+
+/* Centrare i placeholder */
+.placeholder-centered::placeholder {
+  color: #6b6d70; /* Testo grigio */
+  text-align: center; /* Testo centrato */
+}
+
+/* Stile per i pulsanti "Invia" e "Torna Indietro" */
+.btn-red {
+  background-color: #e50013; /* Rosso intenso */
+  color: #ffffff; /* Testo bianco */
+  border: none; /* Rimuove il bordo */
+  padding: 10px 20px; /* Spaziatura interna */
+  border-radius: 5px; /* Angoli arrotondati */
+}
+
+.btn-red:hover {
+  background-color: #cc0011; /* Rosso più scuro al passaggio del mouse */
+}
+
+/* Centrare i titoli "Descrizione" e "Caratteristiche" */
+.description-title,
+.characteristics-title {
+  font-size: 1.5rem; /* Dimensione del testo */
+  margin-bottom: 20px; /* Spaziatura sotto il titolo */
+}
+
+/* Stile per righe delle caratteristiche */
+.features-row,
+.bath-balcony-row {
+  display: flex; /* Disposizione orizzontale */
+  justify-content: space-between; /* Elementi affiancati */
+  margin-bottom: 20px; /* Spaziatura tra righe */
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
