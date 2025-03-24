@@ -1,9 +1,10 @@
-import { Route, Routes, useNavigate } from "react-router-dom"; // Rimuovi l'importazione di Router
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import axios from "axios";
 import HomePage from "./Homepage";
+import RegisterForm from "./components/RegisterForm";
 
 function App() {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ function App() {
       <div className="flex-grow-1">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RegisterForm />} />
         </Routes>
       </div>
       <Footer />
