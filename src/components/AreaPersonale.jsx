@@ -19,7 +19,9 @@ const AreaPersonale = () => {
         try {
           const response = await axios.get(
             "http://localhost:8080/api/user/me",
-            { headers: { Authorization: `Bearer ${token}` } }
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
           );
           setUserData(response.data);
 
@@ -47,9 +49,28 @@ const AreaPersonale = () => {
       };
       fetchData();
     } else {
-      navigate("/"); // Se il token non esiste, reindirizza alla home page
+      navigate("/"); // Reindirizza alla home page se il token non esiste
     }
   }, [navigate]);
+
+  const handleDeleteAnnouncement = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:8080/api/properties/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setUserAnnouncements((prev) =>
+        prev.filter((annuncio) => annuncio.id !== id)
+      );
+    } catch (error) {
+      console.error("Errore durante l'eliminazione dell'annuncio:", error);
+      setError("Non è stato possibile eliminare l'annuncio. Riprova.");
+    }
+  };
+
+  const handleEditAnnouncement = (id) => {
+    navigate(`/modifica-annuncio/${id}`);
+  };
 
   const handleRemoveFavorite = async (id) => {
     try {
@@ -92,7 +113,7 @@ const AreaPersonale = () => {
         </Alert>
       )}
 
-      {/* Sezioni affiancate: Dati Utente e Email Inviate */}
+      {/* Sezione Dati Utente */}
       <Row>
         <Col md={6}>
           <div className="section-container">
@@ -142,6 +163,7 @@ const AreaPersonale = () => {
           </div>
         </Col>
 
+        {/* Sezione Email Inviate */}
         <Col md={6}>
           <div className="section-container">
             <h3 className="section-title">Email Inviate</h3>
@@ -178,8 +200,8 @@ const AreaPersonale = () => {
               <Col md={4} key={annuncio.id} className="mb-4">
                 <div
                   className="card-common-style"
+                  style={{ position: "relative", cursor: "pointer" }}
                   onClick={() => navigate(`/annuncio/${annuncio.id}`)}
-                  style={{ cursor: "pointer" }}
                 >
                   <img
                     src={annuncio.imageUrl || "default-image.jpg"}
@@ -215,6 +237,22 @@ const AreaPersonale = () => {
                       </span>
                     </p>
                   </div>
+                  {/* Icona per eliminare l'annuncio */}
+                  <i
+                    className="bi bi-trash-fill action-icon trash-icon"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteAnnouncement(annuncio.id);
+                    }}
+                  ></i>
+                  {/* Icona per modificare l'annuncio */}
+                  <i
+                    className="bi bi-gear-fill action-icon gear-icon"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditAnnouncement(annuncio.id);
+                    }}
+                  ></i>
                 </div>
               </Col>
             ))}
@@ -231,8 +269,7 @@ const AreaPersonale = () => {
               <Col md={4} key={annuncio.id} className="mb-4">
                 <div
                   className="card-common-style"
-                  onClick={() => navigate(`/annuncio/${annuncio.property?.id}`)}
-                  style={{ cursor: "pointer", position: "relative" }}
+                  style={{ position: "relative" }}
                 >
                   <img
                     src={annuncio.property?.imageUrl || "default-image.jpg"}
@@ -251,7 +288,7 @@ const AreaPersonale = () => {
                     </p>
                     <p>
                       <strong>Indirizzo:</strong>{" "}
-                      <span className="                    dynamic-result">
+                      <span className="dynamic-result">
                         {annuncio.property?.indirizzo || "Non specificato"}
                       </span>
                     </p>
@@ -268,10 +305,11 @@ const AreaPersonale = () => {
                       </span>
                     </p>
                   </div>
+                  {/* Icona per rimuovere dai preferiti */}
                   <i
-                    className="bi bi-trash-fill trash-icon"
+                    className="bi bi-trash-fill action-icon trash-icon2"
                     onClick={(e) => {
-                      e.stopPropagation(); // Evita la navigazione quando si clicca sull'icona
+                      e.stopPropagation();
                       handleRemoveFavorite(annuncio.id);
                     }}
                   ></i>
@@ -282,6 +320,7 @@ const AreaPersonale = () => {
         </Col>
       </Row>
 
+      {/* Pulsante Logout */}
       <div className="text-center mt-4">
         <Button variant="danger" onClick={handleLogout}>
           Logout

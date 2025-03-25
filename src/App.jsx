@@ -8,6 +8,7 @@ import RegisterForm from "./components/RegisterForm";
 import SearchResultsPage from "./components/searchResultsPage";
 import DettaglioAnnuncio from "./components/dettaglioAnnuncio";
 import AreaPersonale from "./components/AreaPersonale";
+import ModificaAnnuncio from "./components/ModificaAnnuncio";
 
 function App() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function App() {
           <Route path="/search-results" element={<SearchResultsPage />} />
           <Route path="/annuncio/:id" element={<DettaglioAnnuncio />} />
           <Route path="/profile" element={<AreaPersonale />} />
+          <Route path="/modifica-annuncio/:id" element={<ModificaAnnuncio />} />
         </Routes>
       </div>
       <Footer />

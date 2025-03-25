@@ -440,6 +440,7 @@
   font-size: 1.5rem;
   color: #dc3545; /* Colore rosso */
 }
+
 /* Stile per il titolo delle card */
 .card-common-style .font-weight-bold {
   color: #0074c1; /* Colore blu per il titolo */
@@ -466,6 +467,31 @@
   right: 10px; /* Posizionata a destra */
   font-size: 1.5rem; /* Dimensione dell'icona */
   cursor: pointer; /* Mostra il puntatore per il click */
+}
+/* Posizionamento e stile delle icone per il cestino e l'ingranaggio */
+.card-common-style .action-icon {
+  position: absolute;
+  bottom: 10px; /* Posizionato a 10px dal fondo della card */
+  font-size: 1.5rem; /* Dimensione uniforme per entrambe le icone */
+  cursor: pointer; /* Mostra il puntatore a mano */
+}
+
+/* Icona cestino Card I tuoi Annunci */
+.card-common-style .trash-icon {
+  color: #dc3545; /* Colore rosso (bootstrap danger) */
+  right: 30px; /* Posizionata a sinistra dell'ingranaggio */
+}
+
+/* Icona ingranaggio */
+.card-common-style .gear-icon {
+  color: #dc3545; /* Stesso colore del cestino */
+  right: 5px; /* Allineata a destra nella card */
+}
+
+/* Icona cestino Card Annunci Preferiti */
+.card-common-style .trash-icon2 {
+  color: #dc3545; /* Colore rosso (bootstrap danger) */
+  right: 20px; /* Posizionata a sinistra dell'ingranaggio */
 }
 
 /* Stile generale per i testi */
