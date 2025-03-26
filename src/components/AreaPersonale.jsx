@@ -12,11 +12,29 @@ const AreaPersonale = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Funzione per recuperare le email inviate
+  const fetchEmails = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "http://localhost:8080/api/emails/logs",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setSentEmails(response.data);
+    } catch (error) {
+      console.error("Errore nel recuperare le email inviate:", error);
+      setError("Errore nel recuperare i tuoi dati. Riprova più tardi.");
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       const fetchData = async () => {
         try {
+          // Recupera i dati utente
           const response = await axios.get(
             "http://localhost:8080/api/user/me",
             {
@@ -25,23 +43,22 @@ const AreaPersonale = () => {
           );
           setUserData(response.data);
 
+          // Recupera gli annunci dell'utente
           const userAnnResponse = await axios.get(
             "http://localhost:8080/api/user/announcements",
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setUserAnnouncements(userAnnResponse.data);
 
+          // Recupera gli annunci preferiti
           const favAnnResponse = await axios.get(
             "http://localhost:8080/api/favorites",
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setFavoriteAnnouncements(favAnnResponse.data);
 
-          const sentEmailsResponse = await axios.get(
-            "http://localhost:8080/api/emails/logs",
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-          setSentEmails(sentEmailsResponse.data);
+          // Richiama la funzione per recuperare le email inviate
+          fetchEmails();
         } catch (error) {
           console.error("Errore nel recuperare i dati utente:", error);
           setError("Errore nel recuperare i tuoi dati. Riprova più tardi.");
@@ -261,63 +278,59 @@ const AreaPersonale = () => {
       </Row>
 
       {/* Sezione Annunci Preferiti */}
-      <Row className="section-container">
-        <Col md={12}>
-          <h3 className="section-title">Annunci Preferiti</h3>
-          <Row>
-            {favoriteAnnouncements.map((annuncio) => (
-              <Col md={4} key={annuncio.id} className="mb-4">
-                <div
-                  className="card-common-style"
-                  style={{ position: "relative" }}
-                >
-                  <img
-                    src={annuncio.property?.imageUrl || "default-image.jpg"}
-                    alt={annuncio.property?.titolo || "Immagine Annuncio"}
-                    className="img-thumbnail"
-                  />
-                  <div className="content">
-                    <p className="font-weight-bold">
-                      {annuncio.property?.titolo || "Titolo non disponibile"}
-                    </p>
-                    <p>
-                      <strong>Prezzo:</strong>{" "}
-                      <span className="dynamic-result">
-                        €{annuncio.property?.prezzo?.toLocaleString() || "N/A"}
-                      </span>
-                    </p>
-                    <p>
-                      <strong>Indirizzo:</strong>{" "}
-                      <span className="dynamic-result">
-                        {annuncio.property?.indirizzo || "Non specificato"}
-                      </span>
-                    </p>
-                    <p>
-                      <strong>Tipo:</strong>{" "}
-                      <span className="dynamic-result">
-                        {annuncio.property?.tipo || "Non specificato"}
-                      </span>
-                    </p>
-                    <p>
-                      <strong>Zona:</strong>{" "}
-                      <span className="dynamic-result">
-                        {annuncio.property?.zona || "Non specificata"}
-                      </span>
-                    </p>
-                  </div>
-                  {/* Icona per rimuovere dai preferiti */}
-                  <i
-                    className="bi bi-trash-fill action-icon trash-icon2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRemoveFavorite(annuncio.id);
-                    }}
-                  ></i>
-                </div>
-              </Col>
-            ))}
-          </Row>
-        </Col>
+      <Row>
+        {favoriteAnnouncements.map((annuncio) => (
+          <Col md={4} key={annuncio.id} className="mb-4">
+            <div
+              className="card-common-style"
+              style={{ position: "relative", cursor: "pointer" }}
+              onClick={() => navigate(`/annuncio/${annuncio.property?.id}`)} // Uso di annuncio.property.id
+            >
+              <img
+                src={annuncio.property?.imageUrl || "default-image.jpg"}
+                alt={annuncio.property?.titolo || "Immagine Annuncio"}
+                className="img-thumbnail"
+              />
+              <div className="content">
+                <p className="font-weight-bold">
+                  {annuncio.property?.titolo || "Titolo non disponibile"}
+                </p>
+                <p>
+                  <strong>Prezzo:</strong>{" "}
+                  <span className="dynamic-result">
+                    €{annuncio.property?.prezzo?.toLocaleString() || "N/A"}
+                  </span>
+                </p>
+                <p>
+                  <strong>Indirizzo:</strong>{" "}
+                  <span className="dynamic-result">
+                    {annuncio.property?.indirizzo || "Non specificato"}
+                  </span>
+                </p>
+                <p>
+                  <strong>Tipo:</strong>{" "}
+                  <span className="dynamic-result">
+                    {annuncio.property?.tipo || "Non specificato"}
+                  </span>
+                </p>
+                <p>
+                  <strong>Zona:</strong>{" "}
+                  <span className="dynamic-result">
+                    {annuncio.property?.zona || "Non specificata"}
+                  </span>
+                </p>
+              </div>
+              {/* Icona per rimuovere dai preferiti */}
+              <i
+                className="bi bi-trash-fill action-icon trash-icon2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRemoveFavorite(annuncio.id);
+                }}
+              ></i>
+            </div>
+          </Col>
+        ))}
       </Row>
 
       {/* Pulsante Logout */}

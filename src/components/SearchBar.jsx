@@ -5,23 +5,18 @@ import { useNavigate } from "react-router-dom";
 const SearchBar = () => {
   const [prezzo, setPrezzo] = useState("");
   const [tipo, setTipo] = useState("AFFITTO");
-  const [combinedInput, setCombinedInput] = useState("");
+  const [zona, setZona] = useState("");
+  const [indirizzo, setIndirizzo] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
-
-    const [zona, indirizzo, superficie, numeroBagni] = combinedInput
-      .split(",")
-      .map((item) => item.trim());
 
     const queryParams = new URLSearchParams({
       prezzo: prezzo || "",
       tipo: tipo || "",
       zona: zona || "",
       indirizzo: indirizzo || "",
-      superficie: superficie || "",
-      numeroBagni: numeroBagni || "",
     }).toString();
 
     navigate(`/search-results?${queryParams}`);
@@ -30,6 +25,7 @@ const SearchBar = () => {
   return (
     <Form onSubmit={handleSearch} className="search-bar-wrapper">
       <Row className="align-items-center">
+        {/* Riquadro Prezzo */}
         <Col xs={3}>
           <Form.Control
             type="number"
@@ -39,6 +35,8 @@ const SearchBar = () => {
             className="form-control-custom"
           />
         </Col>
+
+        {/* Riquadro Tipo */}
         <Col xs={3}>
           <Form.Select
             value={tipo}
@@ -49,16 +47,32 @@ const SearchBar = () => {
             <option value="VENDITA">Vendita</option>
           </Form.Select>
         </Col>
-        <Col xs={4}>
+
+        {/* Riquadro Zona */}
+        <Col xs={3}>
           <Form.Control
             type="text"
-            placeholder="Zona, Indirizzo, Metro, N. Bagni"
-            value={combinedInput}
-            onChange={(e) => setCombinedInput(e.target.value)}
+            placeholder="Zona"
+            value={zona}
+            onChange={(e) => setZona(e.target.value)}
             className="form-control-custom"
           />
         </Col>
-        <Col xs={2}>
+
+        {/* Riquadro Indirizzo */}
+        <Col xs={3}>
+          <Form.Control
+            type="text"
+            placeholder="Indirizzo"
+            value={indirizzo}
+            onChange={(e) => setIndirizzo(e.target.value)}
+            className="form-control-custom"
+          />
+        </Col>
+      </Row>
+
+      <Row className="mt-3">
+        <Col xs={12}>
           <Button type="submit" className="btn-search">
             Cerca
           </Button>
