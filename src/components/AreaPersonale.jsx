@@ -184,26 +184,31 @@ const AreaPersonale = () => {
         <Col md={6}>
           <div className="section-container">
             <h3 className="section-title">Email Inviate</h3>
-            <ul className="list-group">
-              {sentEmails.map((email) => (
-                <li key={email.id} className="list-group-item">
-                  <p>
-                    <strong>Destinatario:</strong>{" "}
-                    <span className="dynamic-result">{email.recipient}</span>
-                  </p>
-                  <p>
-                    <strong>Oggetto:</strong>{" "}
-                    <span className="dynamic-result">{email.subject}</span>
-                  </p>
-                  <p>
-                    <strong>Inviata il:</strong>{" "}
-                    <span className="dynamic-result">
-                      {new Date(email.sentAt).toLocaleString()}
-                    </span>
-                  </p>
-                </li>
-              ))}
-            </ul>
+            {sentEmails.length > 0 ? (
+              <ul className="list-group">
+                {sentEmails.map((email) => (
+                  <li key={email.id} className="list-group-item">
+                    <p>
+                      <strong>Destinatario:</strong>{" "}
+                      <span className="dynamic-result">{email.recipient}</span>
+                    </p>
+                    <p>
+                      <strong>Oggetto:</strong>{" "}
+                      <span className="dynamic-result">{email.subject}</span>
+                    </p>
+                    <p>
+                      <strong>Inviata il:</strong>{" "}
+                      <span className="dynamic-result">
+                        {new Date(email.sentAt).toLocaleString()}
+                      </span>
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              // Messaggio se non ci sono email inviate
+              <p className="text-center mt-4">Non hai email inviate.</p>
+            )}
           </div>
         </Col>
       </Row>
@@ -213,124 +218,142 @@ const AreaPersonale = () => {
         <Col md={12}>
           <h3 className="section-title">I tuoi Annunci</h3>
           <Row>
-            {userAnnouncements.map((annuncio) => (
-              <Col md={4} key={annuncio.id} className="mb-4">
-                <div
-                  className="card-common-style"
-                  style={{ position: "relative", cursor: "pointer" }}
-                  onClick={() => navigate(`/annuncio/${annuncio.id}`)}
-                >
-                  <img
-                    src={annuncio.imageUrl || "default-image.jpg"}
-                    alt={annuncio.titolo || "Immagine Annuncio"}
-                    className="img-thumbnail"
-                  />
-                  <div className="content">
-                    <p className="font-weight-bold">
-                      {annuncio.titolo || "Titolo non disponibile"}
-                    </p>
-                    <p>
-                      <strong>Prezzo:</strong>{" "}
-                      <span className="dynamic-result">
-                        €{annuncio.prezzo?.toLocaleString() || "N/A"}
-                      </span>
-                    </p>
-                    <p>
-                      <strong>Indirizzo:</strong>{" "}
-                      <span className="dynamic-result">
-                        {annuncio.indirizzo || "Non specificato"}
-                      </span>
-                    </p>
-                    <p>
-                      <strong>Tipo:</strong>{" "}
-                      <span className="dynamic-result">
-                        {annuncio.tipo || "Non specificato"}
-                      </span>
-                    </p>
-                    <p>
-                      <strong>Zona:</strong>{" "}
-                      <span className="dynamic-result">
-                        {annuncio.zona || "Non specificata"}
-                      </span>
-                    </p>
+            {userAnnouncements.length > 0 ? (
+              userAnnouncements.map((annuncio) => (
+                <Col md={4} key={annuncio.id} className="mb-4">
+                  <div
+                    className="card-common-style"
+                    style={{ position: "relative", cursor: "pointer" }}
+                    onClick={() => navigate(`/annuncio/${annuncio.id}`)}
+                  >
+                    <img
+                      src={annuncio.imageUrl || "default-image.jpg"}
+                      alt={annuncio.titolo || "Immagine Annuncio"}
+                      className="img-thumbnail"
+                    />
+                    <div className="content">
+                      <p className="font-weight-bold">
+                        {annuncio.titolo || "Titolo non disponibile"}
+                      </p>
+                      <p>
+                        <strong>Prezzo:</strong>{" "}
+                        <span className="dynamic-result">
+                          €{annuncio.prezzo?.toLocaleString() || "N/A"}
+                        </span>
+                      </p>
+                      <p>
+                        <strong>Indirizzo:</strong>{" "}
+                        <span className="dynamic-result">
+                          {annuncio.indirizzo || "Non specificato"}
+                        </span>
+                      </p>
+                      <p>
+                        <strong>Tipo:</strong>{" "}
+                        <span className="dynamic-result">
+                          {annuncio.tipo || "Non specificato"}
+                        </span>
+                      </p>
+                      <p>
+                        <strong>Zona:</strong>{" "}
+                        <span className="dynamic-result">
+                          {annuncio.zona || "Non specificata"}
+                        </span>
+                      </p>
+                    </div>
+                    {/* Icona per eliminare l'annuncio */}
+                    <i
+                      className="bi bi-trash-fill action-icon trash-icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteAnnouncement(annuncio.id);
+                      }}
+                    ></i>
+                    {/* Icona per modificare l'annuncio */}
+                    <i
+                      className="bi bi-gear-fill action-icon gear-icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditAnnouncement(annuncio.id);
+                      }}
+                    ></i>
                   </div>
-                  {/* Icona per eliminare l'annuncio */}
-                  <i
-                    className="bi bi-trash-fill action-icon trash-icon"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteAnnouncement(annuncio.id);
-                    }}
-                  ></i>
-                  {/* Icona per modificare l'annuncio */}
-                  <i
-                    className="bi bi-gear-fill action-icon gear-icon"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEditAnnouncement(annuncio.id);
-                    }}
-                  ></i>
-                </div>
-              </Col>
-            ))}
+                </Col>
+              ))
+            ) : (
+              // Messaggio se non ci sono annunci personali
+              <p className="text-center mt-4">Non hai annunci personali.</p>
+            )}
           </Row>
         </Col>
       </Row>
 
       {/* Sezione Annunci Preferiti */}
-      <Row>
-        {favoriteAnnouncements.map((annuncio) => (
-          <Col md={4} key={annuncio.id} className="mb-4">
-            <div
-              className="card-common-style"
-              style={{ position: "relative", cursor: "pointer" }}
-              onClick={() => navigate(`/annuncio/${annuncio.property?.id}`)} // Uso di annuncio.property.id
-            >
-              <img
-                src={annuncio.property?.imageUrl || "default-image.jpg"}
-                alt={annuncio.property?.titolo || "Immagine Annuncio"}
-                className="img-thumbnail"
-              />
-              <div className="content">
-                <p className="font-weight-bold">
-                  {annuncio.property?.titolo || "Titolo non disponibile"}
-                </p>
-                <p>
-                  <strong>Prezzo:</strong>{" "}
-                  <span className="dynamic-result">
-                    €{annuncio.property?.prezzo?.toLocaleString() || "N/A"}
-                  </span>
-                </p>
-                <p>
-                  <strong>Indirizzo:</strong>{" "}
-                  <span className="dynamic-result">
-                    {annuncio.property?.indirizzo || "Non specificato"}
-                  </span>
-                </p>
-                <p>
-                  <strong>Tipo:</strong>{" "}
-                  <span className="dynamic-result">
-                    {annuncio.property?.tipo || "Non specificato"}
-                  </span>
-                </p>
-                <p>
-                  <strong>Zona:</strong>{" "}
-                  <span className="dynamic-result">
-                    {annuncio.property?.zona || "Non specificata"}
-                  </span>
-                </p>
-              </div>
-              {/* Icona per rimuovere dai preferiti */}
-              <i
-                className="bi bi-trash-fill action-icon trash-icon2"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemoveFavorite(annuncio.id);
-                }}
-              ></i>
-            </div>
-          </Col>
-        ))}
+      <Row className="section-container">
+        <Col md={12}>
+          <h3 className="section-title">Annunci Preferiti</h3>
+          <Row>
+            {favoriteAnnouncements.length > 0 ? (
+              favoriteAnnouncements.map((annuncio) => (
+                <Col md={4} key={annuncio.id} className="mb-4">
+                  <div
+                    className="card-common-style"
+                    style={{ position: "relative", cursor: "pointer" }}
+                    onClick={() =>
+                      navigate(`/annuncio/${annuncio.property?.id}`)
+                    }
+                  >
+                    <img
+                      src={annuncio.property?.imageUrl}
+                      alt={annuncio.property?.titolo || "Immagine Annuncio"}
+                      className="img-thumbnail"
+                    />
+                    <div className="content">
+                      <p className="font-weight-bold">
+                        {annuncio.property?.titolo || "Titolo non disponibile"}
+                      </p>
+                      <p>
+                        <strong>Prezzo:</strong>{" "}
+                        <span className="dynamic-result">
+                          €
+                          {annuncio.property?.prezzo?.toLocaleString() || "N/A"}
+                        </span>
+                      </p>
+                      <p>
+                        <strong>Indirizzo:</strong>{" "}
+                        <span className="dynamic-result">
+                          {annuncio.property?.indirizzo || "Non specificato"}
+                        </span>
+                      </p>
+                      <p>
+                        <strong>Tipo:</strong>{" "}
+                        <span className="dynamic-result">
+                          {annuncio.property?.tipo || "Non specificato"}
+                        </span>
+                      </p>
+                      <p>
+                        <strong>Zona:</strong>{" "}
+                        <span className="dynamic-result">
+                          {annuncio.property?.zona || "Non specificata"}
+                        </span>
+                      </p>
+                    </div>
+                    {/* Icona per rimuovere dai preferiti */}
+                    <i
+                      className="bi bi-trash-fill action-icon trash-icon2"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveFavorite(annuncio.id);
+                      }}
+                    ></i>
+                  </div>
+                </Col>
+              ))
+            ) : (
+              // Messaggio se non ci sono annunci preferiti
+              <p className="text-center mt-4">Non hai annunci preferiti.</p>
+            )}
+          </Row>
+        </Col>
       </Row>
 
       {/* Pulsante Logout */}
