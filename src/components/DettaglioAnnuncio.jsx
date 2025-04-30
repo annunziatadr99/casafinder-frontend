@@ -1,14 +1,22 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button, Form, Alert } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  Alert,
+  Carousel,
+} from "react-bootstrap";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "../index.css";
 
 const DettaglioAnnuncio = () => {
-  const { id } = useParams(); // Recupera l'ID dell'annuncio dalla route
+  const { id } = useParams();
   const [property, setProperty] = useState(null);
-  const [emailSubject, setEmailSubject] = useState(""); // Campo oggetto email
-  const [emailContent, setEmailContent] = useState(""); // Campo contenuto email
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailContent, setEmailContent] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -26,8 +34,7 @@ const DettaglioAnnuncio = () => {
             },
           }
         );
-        console.log("Dati della proprietà:", response.data);
-        setProperty(response.data); // Salva i dettagli della proprietà
+        setProperty(response.data);
       } catch (error) {
         console.error("Errore nel recupero dei dettagli dell'annuncio:", error);
       }
@@ -44,9 +51,9 @@ const DettaglioAnnuncio = () => {
       await axios.post(
         "http://localhost:8080/api/emails/send",
         {
-          recipient: property.user.email, // Email del destinatario
-          subject: emailSubject, // Oggetto
-          content: emailContent, // Contenuto
+          recipient: property.user.email,
+          subject: emailSubject,
+          content: emailContent,
         },
         {
           headers: {
@@ -57,8 +64,8 @@ const DettaglioAnnuncio = () => {
       );
 
       setSuccessMessage("Email inviata con successo!");
-      setEmailSubject(""); // Reset del campo oggetto
-      setEmailContent(""); // Reset del campo contenuto
+      setEmailSubject("");
+      setEmailContent("");
       setErrorMessage("");
     } catch (error) {
       console.error("Errore nell'invio dell'email:", error);
@@ -81,11 +88,27 @@ const DettaglioAnnuncio = () => {
       <div className="section-container">
         <Row className="mb-4">
           <Col className="text-center">
-            <img
-              src={property.imageUrl || "default-image.jpg"}
-              alt="Immagine della Proprietà"
-              className="dettaglio-annuncio-img"
-            />
+            {/* Se la proprietà ha più immagini, mostra il Carousel */}
+            {property.imageUrls && property.imageUrls.length > 0 ? (
+              <Carousel>
+                {property.imageUrls.map((image, index) => (
+                  <Carousel.Item key={index}>
+                    <img
+                      src={image}
+                      alt={`Immagine ${index + 1}`}
+                      className="dettaglio-annuncio-img"
+                    />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            ) : (
+              // Se ha solo imageUrl, mostra l'immagine singola
+              <img
+                src={property.imageUrl || "default-image.jpg"}
+                alt="Immagine della Proprietà"
+                className="dettaglio-annuncio-img"
+              />
+            )}
           </Col>
         </Row>
         <Row className="card-details-row">
@@ -163,7 +186,6 @@ const DettaglioAnnuncio = () => {
               value={emailSubject}
               onChange={(e) => setEmailSubject(e.target.value)}
               required
-              className="placeholder-centered"
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -175,7 +197,6 @@ const DettaglioAnnuncio = () => {
               value={emailContent}
               onChange={(e) => setEmailContent(e.target.value)}
               required
-              className="placeholder-centered"
             />
           </Form.Group>
           <Button type="submit" className="btn-red">

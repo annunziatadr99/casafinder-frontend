@@ -4,57 +4,61 @@ import { useNavigate } from "react-router-dom";
 import "../index.css";
 
 const PropertyForm = () => {
-  const [preview, setPreview] = useState(null); // Stato per l'anteprima immagine
+  const [previews, setPreviews] = useState([]); // Array di anteprime immagini
+  const [images, setImages] = useState([]); // Array di immagini caricate
   const [titolo, setTitolo] = useState("");
   const [prezzo, setPrezzo] = useState("");
-  const [tipo, setTipo] = useState("AFFITTO"); // Inizializzazione in maiuscolo
+  const [tipo, setTipo] = useState("AFFITTO");
   const [indirizzo, setIndirizzo] = useState("");
-  const [zona, setZona] = useState(""); // Stato per il nuovo campo Zona
+  const [zona, setZona] = useState("");
   const [descrizione, setDescrizione] = useState("");
   const [superficie, setSuperficie] = useState("");
   const [numeroBagni, setNumeroBagni] = useState("");
   const [numeroBalconi, setNumeroBalconi] = useState("");
-  const [image, setImage] = useState(null);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false); // Stato per il successo
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
-  // Gestisce il caricamento dell'immagine e genera l'anteprima
+  // Gestisce il caricamento di più immagini e genera le anteprime
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
+    const files = Array.from(e.target.files);
+    setImages(files);
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result);
-      reader.readAsDataURL(file);
-    }
+    const previewsArray = files.map((file) => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+    });
+
+    Promise.all(previewsArray).then((results) => setPreviews(results));
   };
 
-  // Gestione dell'invio del form
+  // Gestione dell'invio del form con upload multiplo
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("token"); // Recupera il token JWT
-    const userId = localStorage.getItem("userId"); // Recupera l'userId dal localStorage
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
 
     if (!token || !userId) {
       setError("Errore: Effettua il login per pubblicare un annuncio.");
       return;
     }
 
-    // Converti "tipo" in maiuscolo per evitare errori di backend
     const tipoUpperCase = tipo.toUpperCase();
 
-    // Configura i dati da inviare al backend tramite FormData
     const formData = new FormData();
-    formData.append("file", image); // Immagine caricata
-    formData.append("userId", userId); // Associazione con l'utente loggato
+    images.forEach((image) => {
+      formData.append("files", image); // Aggiunge tutte le immagini alla richiesta
+    });
+    formData.append("userId", userId);
     formData.append("titolo", titolo);
     formData.append("prezzo", prezzo);
-    formData.append("tipo", tipoUpperCase); // Convertito in maiuscolo
+    formData.append("tipo", tipoUpperCase);
     formData.append("indirizzo", indirizzo);
-    formData.append("zona", zona); // Nuovo campo zona
+    formData.append("zona", zona);
     formData.append("descrizione", descrizione);
     formData.append("superficie", superficie);
     formData.append("numeroBagni", numeroBagni);
@@ -71,7 +75,7 @@ const PropertyForm = () => {
         setSuccess(true);
         setError("");
         console.log("Annuncio pubblicato con successo.");
-        navigate("/profile"); // Reindirizza all'area personale
+        navigate("/profile");
       } else {
         const data = await response.json();
         setError(
@@ -118,6 +122,7 @@ const PropertyForm = () => {
             </Form.Group>
           </Col>
         </Row>
+        {/* Sezione per il tipo di annuncio */}
         <Row className="mb-3">
           <Col>
             <Form.Group controlId="formTipo">
@@ -149,6 +154,8 @@ const PropertyForm = () => {
             </Form.Group>
           </Col>
         </Row>
+
+        {/* Sezione per Zona e Descrizione */}
         <Row className="mb-3">
           <Col>
             <Form.Group controlId="formZona">
@@ -180,6 +187,8 @@ const PropertyForm = () => {
             </Form.Group>
           </Col>
         </Row>
+
+        {/* Sezione per Superficie, Bagni e Balconi */}
         <Row className="mb-3">
           <Col>
             <Form.Group controlId="formSuperficie">
@@ -225,31 +234,45 @@ const PropertyForm = () => {
               />
             </Form.Group>
           </Col>
+
+          {/* Sezione per l'upload multiplo di immagini */}
+
           <Col>
-            <Form.Group controlId="formImage">
+            <Form.Group controlId="formImages">
               <Form.Label>
-                <strong>Immagine della Proprietà:</strong>
+                <strong>Immagini della Proprietà:</strong>
               </Form.Label>
               <Form.Control
                 type="file"
                 accept="image/*"
+                multiple // Permette la selezione di più immagini
                 onChange={handleImageChange}
                 required
               />
             </Form.Group>
           </Col>
         </Row>
-        {preview && (
+
+        {/* Mostra le anteprime delle immagini caricate */}
+        {previews.length > 0 && (
           <div className="form-group mb-3 text-center">
-            <label>Anteprima Immagine:</label>
-            <img
-              src={preview}
-              alt="Anteprima"
-              className="img-thumbnail mt-2"
-              style={{ maxWidth: "100%", maxHeight: "300px" }}
-            />
+            <label>
+              <strong>Anteprima Immagini:</strong>
+            </label>
+            <div className="d-flex flex-wrap justify-content-center">
+              {previews.map((preview, index) => (
+                <img
+                  key={index}
+                  src={preview}
+                  alt={`Anteprima ${index + 1}`}
+                  className="img-thumbnail mt-2 mx-2"
+                  style={{ maxWidth: "100px", maxHeight: "300px" }}
+                />
+              ))}
+            </div>
           </div>
         )}
+
         {error && <Alert variant="danger">{error}</Alert>}
         {success && (
           <Alert variant="success">Annuncio pubblicato con successo!</Alert>

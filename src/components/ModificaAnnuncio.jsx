@@ -6,7 +6,8 @@ const ModificaAnnuncio = () => {
   const { id } = useParams(); // Ottiene l'id dell'annuncio dall'URL
   const navigate = useNavigate();
 
-  const [preview, setPreview] = useState(null); // Anteprima immagine
+  const [previews, setPreviews] = useState([]); // Array di anteprime immagini
+  const [images, setImages] = useState([]); // Array di immagini caricate
   const [titolo, setTitolo] = useState("");
   const [prezzo, setPrezzo] = useState("");
   const [tipo, setTipo] = useState("AFFITTO"); // Valore predefinito
@@ -16,7 +17,6 @@ const ModificaAnnuncio = () => {
   const [superficie, setSuperficie] = useState("");
   const [numeroBagni, setNumeroBagni] = useState("");
   const [numeroBalconi, setNumeroBalconi] = useState("");
-  const [image, setImage] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false); // Stato per mostrare il successo
 
@@ -43,7 +43,7 @@ const ModificaAnnuncio = () => {
           setSuperficie(data.superficie);
           setNumeroBagni(data.numeroBagni);
           setNumeroBalconi(data.numeroBalconi);
-          setPreview(data.imageUrl); // Mostra l'immagine esistente come anteprima
+          setPreviews(data.imageUrls || [data.imageUrl]); // Mostra le immagini esistenti come anteprima
         } else {
           setError("Errore nel recuperare i dettagli dell'annuncio.");
         }
@@ -57,14 +57,18 @@ const ModificaAnnuncio = () => {
   }, [id]);
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
+    const files = Array.from(e.target.files);
+    setImages(files);
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result);
-      reader.readAsDataURL(file);
-    }
+    const previewsArray = files.map((file) => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+    });
+
+    Promise.all(previewsArray).then((results) => setPreviews(results));
   };
 
   const handleSubmit = async (e) => {
@@ -73,9 +77,8 @@ const ModificaAnnuncio = () => {
     const token = localStorage.getItem("token");
     const formData = new FormData();
 
-    if (image) {
-      formData.append("file", image); // Aggiungi il file solo se l'utente lo carica
-    }
+    images.forEach((image) => formData.append("files", image));
+
     if (titolo) {
       formData.append("titolo", titolo);
     }
@@ -242,26 +245,33 @@ const ModificaAnnuncio = () => {
               />
             </Form.Group>
           </Col>
+          {/* Sezione per la gestione dell'upload multiplo di immagini */}
           <Col>
-            <Form.Group controlId="formImage">
-              <Form.Label>Immagine della Proprietà:</Form.Label>
+            <Form.Group controlId="formImages">
+              <Form.Label>Immagini della Proprietà:</Form.Label>
               <Form.Control
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleImageChange}
               />
             </Form.Group>
           </Col>
         </Row>
-        {preview && (
+        {previews.length > 0 && (
           <div className="form-group mb-3 text-center">
-            <label>Anteprima Immagine:</label>
-            <img
-              src={preview}
-              alt="Anteprima"
-              className="img-thumbnail mt-2"
-              style={{ maxWidth: "100%", maxHeight: "300px" }}
-            />
+            <label>Anteprima Immagini:</label>
+            <div className="d-flex flex-wrap justify-content-center">
+              {previews.map((preview, index) => (
+                <img
+                  key={index}
+                  src={preview}
+                  alt={`Anteprima ${index + 1}`}
+                  className="img-thumbnail mt-2 mx-2"
+                  style={{ maxWidth: "100px", maxHeight: "300px" }}
+                />
+              ))}
+            </div>
           </div>
         )}
         {error && <Alert variant="danger">{error}</Alert>}
