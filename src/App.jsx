@@ -6,15 +6,21 @@ import axios from "axios";
 import HomePage from "./Homepage";
 import RegisterForm from "./components/RegisterForm";
 import SearchResultsPage from "./components/searchResultsPage";
-import DettaglioAnnuncio from "./components/dettaglioAnnuncio";
+import DettaglioAnnuncio from "./components/DettaglioAnnuncio";
 import AreaPersonale from "./components/AreaPersonale";
 import ModificaAnnuncio from "./components/ModificaAnnuncio";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import AdminUsers from "./components/admin/AdminUsers";
+import AdminProperties from "./components/admin/AdminProperties";
+import AdminEmails from "./components/admin/AdminEmails";
 
 function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
     if (token) {
       const fetchUserData = async () => {
         try {
@@ -32,6 +38,11 @@ function App() {
       };
       fetchUserData();
     }
+
+    // 🔥 Protezione accesso al backoffice: solo gli ADMIN possono accedere
+    if (window.location.pathname.startsWith("/admin") && role !== "ADMIN") {
+      navigate("/"); // Reindirizza gli USER alla home se provano ad accedere al backoffice
+    }
   }, [navigate]);
 
   return (
@@ -45,6 +56,12 @@ function App() {
           <Route path="/annuncio/:id" element={<DettaglioAnnuncio />} />
           <Route path="/profile" element={<AreaPersonale />} />
           <Route path="/modifica-annuncio/:id" element={<ModificaAnnuncio />} />
+
+          {/* 🔥 Percorsi per il BackOffice */}
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/properties" element={<AdminProperties />} />
+          <Route path="/admin/emails" element={<AdminEmails />} />
         </Routes>
       </div>
       <Footer />

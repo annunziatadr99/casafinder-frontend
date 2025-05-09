@@ -16,12 +16,9 @@ const AreaPersonale = () => {
   const fetchEmails = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(
-        "http://localhost:8080/api/emails/logs",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.get("http://localhost:8080/api/email/logs", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setSentEmails(response.data);
     } catch (error) {
       console.error("Errore nel recuperare le email inviate:", error);

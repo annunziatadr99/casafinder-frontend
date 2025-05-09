@@ -6,11 +6,11 @@ const ModificaAnnuncio = () => {
   const { id } = useParams(); // Ottiene l'id dell'annuncio dall'URL
   const navigate = useNavigate();
 
-  const [previews, setPreviews] = useState([]); // Array di anteprime immagini
-  const [images, setImages] = useState([]); // Array di immagini caricate
+  const [previews, setPreviews] = useState([]);
+  const [images, setImages] = useState([]);
   const [titolo, setTitolo] = useState("");
   const [prezzo, setPrezzo] = useState("");
-  const [tipo, setTipo] = useState("AFFITTO"); // Valore predefinito
+  const [tipo, setTipo] = useState("AFFITTO");
   const [indirizzo, setIndirizzo] = useState("");
   const [zona, setZona] = useState("");
   const [descrizione, setDescrizione] = useState("");
@@ -18,10 +18,9 @@ const ModificaAnnuncio = () => {
   const [numeroBagni, setNumeroBagni] = useState("");
   const [numeroBalconi, setNumeroBalconi] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false); // Stato per mostrare il successo
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    // Funzione per ottenere i dettagli dell'annuncio
     const fetchPropertyDetails = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -43,7 +42,7 @@ const ModificaAnnuncio = () => {
           setSuperficie(data.superficie);
           setNumeroBagni(data.numeroBagni);
           setNumeroBalconi(data.numeroBalconi);
-          setPreviews(data.imageUrls || [data.imageUrl]); // Mostra le immagini esistenti come anteprima
+          setPreviews(data.imageUrls || [data.imageUrl]);
         } else {
           setError("Errore nel recuperare i dettagli dell'annuncio.");
         }
@@ -75,55 +74,56 @@ const ModificaAnnuncio = () => {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role"); // 🔥 Recupera il ruolo
+    const url =
+      role === "ADMIN"
+        ? `http://localhost:8080/api/admin/properties/${id}`
+        : `http://localhost:8080/api/properties/${id}`;
+
     const formData = new FormData();
 
     images.forEach((image) => formData.append("files", image));
-
-    if (titolo) {
-      formData.append("titolo", titolo);
-    }
-    if (prezzo) {
-      formData.append("prezzo", prezzo);
-    }
-    if (tipo) {
-      formData.append("tipo", tipo.toUpperCase()); // Converti in maiuscolo
-    }
-    if (indirizzo) {
-      formData.append("indirizzo", indirizzo);
-    }
-    if (zona) {
-      formData.append("zona", zona);
-    }
-    if (descrizione) {
-      formData.append("descrizione", descrizione);
-    }
-    if (superficie) {
-      formData.append("superficie", superficie);
-    }
-    if (numeroBagni) {
-      formData.append("numeroBagni", numeroBagni);
-    }
-    if (numeroBalconi) {
-      formData.append("numeroBalconi", numeroBalconi);
-    }
+    if (titolo) formData.append("titolo", titolo);
+    if (prezzo) formData.append("prezzo", prezzo);
+    if (tipo) formData.append("tipo", tipo.toUpperCase());
+    if (indirizzo) formData.append("indirizzo", indirizzo);
+    if (zona) formData.append("zona", zona);
+    if (descrizione) formData.append("descrizione", descrizione);
+    if (superficie) formData.append("superficie", superficie);
+    if (numeroBagni) formData.append("numeroBagni", numeroBagni);
+    if (numeroBalconi) formData.append("numeroBalconi", numeroBalconi);
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/properties/${id}`,
-        {
-          method: "PUT",
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
-        }
-      );
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
 
       if (response.ok) {
         setSuccess(true);
         setError("");
-        navigate("/profile"); // Reindirizza all'area personale
+
+        // 🔥 Corretta la logica di navigazione
+        if (role === "ADMIN") {
+          navigate("/admin/properties"); // 🔥 Gli ADMIN restano nella gestione annunci
+        } else {
+          navigate("/profile"); // 🔥 Gli USER vengono reindirizzati alla propria area personale
+        }
       } else {
-        const data = await response.json();
-        setError(data.error || "Errore durante la modifica dell'annuncio.");
+        let errorMessage = "Errore durante la modifica dell'annuncio.";
+
+        const contentType = response.headers.get("Content-Type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const data = await response.json();
+          errorMessage = data.error || errorMessage;
+        } else {
+          const text = await response.text();
+          errorMessage = text || errorMessage;
+        }
+
+        setError(errorMessage);
       }
     } catch (error) {
       console.error("Errore durante la modifica:", error);
@@ -246,6 +246,7 @@ const ModificaAnnuncio = () => {
             </Form.Group>
           </Col>
           {/* Sezione per la gestione dell'upload multiplo di immagini */}
+
           <Col>
             <Form.Group controlId="formImages">
               <Form.Label>Immagini della Proprietà:</Form.Label>

@@ -44,12 +44,21 @@ const NavBar = () => {
         "http://localhost:8080/api/user/login",
         { username, password }
       );
+
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userId", response.data.id);
+        localStorage.setItem("role", response.data.role); // 🔥 Salviamo il ruolo
         setNome(response.data.nome);
         setLoggedIn(true);
         setError("");
+
+        // 🔥 Reindirizzamento in base al ruolo
+        if (response.data.role === "ADMIN") {
+          navigate("/admin"); // 🔥 Se è ADMIN, reindirizzalo al backoffice
+        } else {
+          navigate("/profile"); // 🔥 Se è USER, reindirizzalo alla sua area personale
+        }
       } else {
         setError("Credenziali non valide. Riprova.");
       }
@@ -80,25 +89,41 @@ const NavBar = () => {
             <Nav.Link as={Link} to="/" className="nav-item">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/register" className="nav-item">
-              Registrazione
-            </Nav.Link>
-            <Nav.Link as={Link} to="/profile" className="nav-item">
-              Area Personale
-            </Nav.Link>
+
+            {/* 🔥 Mostra Area Personale e Registrazione solo agli USER */}
+            {localStorage.getItem("role") !== "ADMIN" && (
+              <>
+                <Nav.Link as={Link} to="/register" className="nav-item">
+                  Registrazione
+                </Nav.Link>
+                <Nav.Link as={Link} to="/profile" className="nav-item">
+                  Area Personale
+                </Nav.Link>
+              </>
+            )}
+
+            {/* 🔥 Mostra BackOffice solo agli ADMIN */}
+            {localStorage.getItem("role") === "ADMIN" && (
+              <Nav.Link as={Link} to="/admin" className="nav-item">
+                BackOffice Admin
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
+
         {loggedIn ? (
           <Nav className="ml-auto d-flex align-items-center user-section">
-            <Nav.Link
-              as={Link}
-              to="/profile"
-              className="d-flex align-items-center profile-section"
-              onClick={handleProfileClick}
-            >
-              <i className="bi bi-person-circle user-icon"></i>
-              <span className="user-name ms-2">Ciao, {nome}</span>
-            </Nav.Link>
+            {localStorage.getItem("role") !== "ADMIN" && (
+              <Nav.Link
+                as={Link}
+                to="/profile"
+                className="d-flex align-items-center profile-section"
+                onClick={handleProfileClick}
+              >
+                <i className="bi bi-person-circle user-icon"></i>
+                <span className="user-name ms-2">Ciao, {nome}</span>
+              </Nav.Link>
+            )}
             <Button
               variant="danger"
               className="ms-2 btn-sm logout-button"
@@ -131,6 +156,7 @@ const NavBar = () => {
             </Button>
           </Form>
         )}
+
         {error && (
           <Alert variant="danger" className="w-100 text-center small mt-2">
             {error}
